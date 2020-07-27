@@ -6,18 +6,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HomeResource {
 
-    @GetMapping("/")
+    @GetMapping("/admin/authorize")
     public String home(){
-        return ("<h1> welcome anono</h1>");
+        return ("true");
     }
 
-    @GetMapping("/user")
+    @GetMapping("/user/authorize")
     public String user(){
-        return ("<h1> welcome user</h1>");
+        return ("true");
     }
 
-    @GetMapping("/admin")
-    public String admin(){
-        return ("<h1> welcome admin</h1>");
-    }
 }
