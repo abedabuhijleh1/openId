@@ -2,11 +2,8 @@ package com.abuhijleh.openId.resources;
 
 import com.abuhijleh.openId.Models.AuthRequest;
 import com.abuhijleh.openId.Models.AuthResponse;
-import com.abuhijleh.openId.Models.MyUserDetails;
-import com.abuhijleh.openId.Models.User;
 import com.abuhijleh.openId.Services.MyUserDetailsService;
 import com.abuhijleh.openId.utils.JwtUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -17,14 +14,17 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class HomeResource {
 
-    @Autowired
-    AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    MyUserDetailsService userDetailsService;
+    private final MyUserDetailsService userDetailsService;
 
-    @Autowired
-    JwtUtils jwtUtils;
+    private final JwtUtils jwtUtils;
+
+    public HomeResource(AuthenticationManager authenticationManager, MyUserDetailsService userDetailsService, JwtUtils jwtUtils) {
+        this.authenticationManager = authenticationManager;
+        this.userDetailsService = userDetailsService;
+        this.jwtUtils = jwtUtils;
+    }
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> generateAuthenticationToken(@RequestBody AuthRequest authRequest) throws Exception{
@@ -44,8 +44,8 @@ public class HomeResource {
 
     }
 
-    @RequestMapping("/home")
-    public String getName(){
-        return "hi";
+    @RequestMapping("/validJwt")
+    public ResponseEntity<String> isValid(){
+        return ResponseEntity.ok("{\"yes\":\"yes\"}");
     }
 }
