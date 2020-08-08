@@ -2,6 +2,7 @@ package com.abuhijleh.openId.resources;
 
 import com.abuhijleh.openId.Models.AuthRequest;
 import com.abuhijleh.openId.Models.AuthResponse;
+import com.abuhijleh.openId.Models.MyUserDetails;
 import com.abuhijleh.openId.Services.MyUserDetailsService;
 import com.abuhijleh.openId.utils.JwtUtils;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,7 @@ public class HomeResource {
             throw new Exception("Incorrect credentials", e);
         }
 
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
+        final MyUserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
 
         final String jwt = jwtUtils.generateToken(userDetails);
 

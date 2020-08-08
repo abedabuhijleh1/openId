@@ -6,6 +6,8 @@ import javax.persistence.*;
 @Table(name = "User")
 public class User {
 
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -45,5 +47,13 @@ public class User {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

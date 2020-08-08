@@ -1,5 +1,6 @@
 package com.abuhijleh.openId.utils;
 
+import com.abuhijleh.openId.Models.MyUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -18,13 +19,14 @@ public class JwtUtils {
     @Value("${SECRET_KEY}")
     private String SECRET_KEY;
 
-    public String generateToken(UserDetails userDetails){
+    public String generateToken(MyUserDetails userDetails){
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
+        return createToken(claims, userDetails.getUsername(), userDetails.getId());
     }
 
-    private String createToken(Map<String, Object> claims, String username) {
+    private String createToken(Map<String, Object> claims, String username, int id) {
         return Jwts.builder().setClaims(claims)
+                .setId(String.valueOf(id))
                 .setSubject(username).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();

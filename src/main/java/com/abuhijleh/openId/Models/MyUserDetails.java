@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 public class MyUserDetails implements UserDetails {
 
+    private int id;
     private String userName;
     private String password;
     private String roles;
@@ -21,6 +22,7 @@ public class MyUserDetails implements UserDetails {
         this.password = user.getPassword();
         this.roles = user.getRoles();
         this.isActive = user.isActive();
+        this.id = user.getId();
     }
 
     public MyUserDetails() {
@@ -60,5 +62,9 @@ public class MyUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return isActive;
+    }
+
+    public int getId() {
+        return id;
     }
 }
