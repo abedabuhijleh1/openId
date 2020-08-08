@@ -27,4 +27,12 @@ public class MyUserDetailsService implements UserDetailsService {
 
         return user.map(MyUserDetails::new).get();
     }
+
+    public void addNewUser(User user) {
+        userRepo.save(user);
+    }
+
+    public boolean existedUser(User user){
+        return userRepo.existsByUserName(user.getUserName());
+    }
 }

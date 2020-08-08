@@ -3,13 +3,13 @@ package com.abuhijleh.openId.resources;
 import com.abuhijleh.openId.Models.AuthRequest;
 import com.abuhijleh.openId.Models.AuthResponse;
 import com.abuhijleh.openId.Models.MyUserDetails;
+import com.abuhijleh.openId.Models.User;
 import com.abuhijleh.openId.Services.MyUserDetailsService;
 import com.abuhijleh.openId.utils.JwtUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -48,5 +48,22 @@ public class HomeResource {
     @RequestMapping("/validJwt")
     public ResponseEntity<String> isValid(){
         return ResponseEntity.ok("{\"yes\":\"yes\"}");
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> registerNewUser(@RequestBody AuthRequest authRequest) throws Exception{
+        User newUser = new User(authRequest);
+
+        if(userDetailsService.existedUser(newUser)){
+            return ResponseEntity.badRequest().body("Already existed user! try another username please.");
+        }
+        userDetailsService.addNewUser(newUser);
+
+        final MyUserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
+
+        final String jwt = jwtUtils.generateToken(userDetails);
+
+        return ResponseEntity.ok(new AuthResponse(jwt));
+
     }
 }

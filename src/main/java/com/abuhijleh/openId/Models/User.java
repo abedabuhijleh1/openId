@@ -6,7 +6,8 @@ import javax.persistence.*;
 @Table(name = "User")
 public class User {
 
-
+    public User() {
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,6 +17,13 @@ public class User {
     private String password;
     private String roles;
     private boolean isActive;
+
+    public User(AuthRequest authRequest) {
+        this.userName = authRequest.getUsername();
+        this.password = authRequest.getPassword();
+        roles = "ROLE_USER";
+        isActive = true;
+    }
 
     public String getUserName() {
         return userName;

@@ -10,4 +10,6 @@ public interface UserRepo extends CrudRepository<User,Integer> {
 
     public Optional<User> findByUserName(String userName);
 
+    public boolean existsByUserName(String userName);
+
 }
